@@ -1,15 +1,9 @@
 design:
-   In both the rmi and socket versions, clients are only required to know their color and the color of the current turn. 
-This allowed some minor client-side error checking if a client moves out of turn. Also, there is a simple boundary check 
-on each move before forwarding it to the server.
+   In both the rmi and socket versions, clients are only required to know their color and the color of the current turn. This allowed some minor client-side error checking if a client moves out of turn. Also, there is a simple boundary check on each move before forwarding it to the server.
 
-The server is the only entity storing all moves and verifying that each is valid. Requests to print the current state of 
-the board query the server to do so. Also, if a client no longer has a valid move, the server notifies each party if the 
-turn has been passed or if the game is over due to no party having a valid move left on the board. Please note that the 
-rmiregistry is started programmatically by running the server, there is no need to do this manually.
+The server is the only entity storing all moves and verifying that each is valid. Requests to print the current state of the board query the server to do so. Also, if a client no longer has a valid move, the server notifies each party if the turn has been passed or if the game is over due to no party having a valid move left on the board. Please note that the rmiregistry is started programmatically by running the server, there is no need to do this manually.
 
-Clients that register after the two player game has started will become observers that cannot move but will be pushed 
-updates when each of the participating clients have moved.
+Clients that register after the two player game has started will become observers that cannot move but will be pushed updates when each of the participating clients have moved.
 
 gameplay:
 
@@ -34,13 +28,9 @@ The board display:
 
 
 disclaimer(s):
-   The game assumes that the server and clients never disconnect and that the game is played to completion. Also, if a 
-client is instantiated but the server has not yet been instantiated, this scenario is not handled. At the end of the 
-game any of the clients can register for the next game including the observers (first come first serve).
+   The game assumes that the server and clients never disconnect and that the game is played to completion. Also, if a client is instantiated but the server has not yet been instantiated, this scenario is not handled. At the end of the game any of the clients can register for the next game including the observers (first come first serve).
 
-Lastly, since I was unsure of how to create a non-blocking read from a socket (with some research it seemed channels 
-may have been the next step), there are moments in the socket version where a client will wait for a response from the 
-server and user input will be delayed. These situations include:
+Lastly, since I was unsure of how to create a non-blocking read from a socket (with some research it seemed channels may have been the next step), there are moments in the socket version where a client will wait for a response from the server and user input will be delayed. These situations include:
 (1) when the first client has registered and is waiting for an opponent
 (2) when a move is made and the client is now waiting for the opponent's move
 (3) when an observer registers, they are permanently listening to the server
